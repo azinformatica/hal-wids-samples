@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './components/home'
+import Form from './components/formulario'
 import Usuario from './components/usuario'
-import Orgao from './components/orgao'
+import Listagem from './components/orgao/listagem'
 
 Vue.use(Router)
 
@@ -21,7 +22,14 @@ export default new Router({
     {
         path: '/cadastro/orgao',
         name: 'orgao',
-        component: Orgao,
+        component: Listagem,
+    },
+    {
+        path: '/formulario',
+        name: 'formulario',
+        component: Form,
     }
+
+
   ]
 })

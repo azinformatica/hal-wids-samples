@@ -172,7 +172,7 @@
                                                     v-model="conversor.formatDateTime(horaInicioEnvioPropostas)"
                                                     label="Hora Inicio Envio de Propostas"
                                                     append-icon="access_time"
-                                                    placeholder="00:00"
+                                                    placeholder="00/00/0000 00:00"
                                                     readonly
                                             ></v-text-field>
                                             <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
@@ -202,7 +202,12 @@
                                         </v-dialog>
                                     </v-flex>
                                     <v-flex xs12 sm3 d-flex>
-
+                                        <v-datetime-picker
+                                                label="Select Datetime"
+                                                :datetime="datetime"
+                                                placeholder="00/00/0000 00:00"
+                                                v-model="datetime">
+                                        </v-datetime-picker>
                                     </v-flex>
                                     <v-flex xs12 sm12 d-flex>
                                         <v-textarea
@@ -263,6 +268,7 @@
                                                 placeholder="Ex. Lote único da licitação para compra de materiais de expediente"
                                         ></v-text-field>
                                     </v-flex>
+
                                 </v-layout>
                             </v-container>
                         </div>
@@ -280,7 +286,12 @@
 </template>
 
 <script>
+    import VDatetimePicker from 'vuetify-datetime-picker';
+
     export default {
+        components: {
+            VDatetimePicker
+        },
         data() {
             return {
                 tipoGrupamento: [
@@ -320,6 +331,7 @@
                 renderTime: false,
                 renderDate: true,
                 name: null,
+                datetime:"",
                 registroPreco: null,
                 modalidade: null,
                 tipo: null,

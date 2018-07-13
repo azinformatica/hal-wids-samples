@@ -354,16 +354,14 @@
 
                         const [year, month, day] = dataInicioEnvioPropostas.split('-')
                         return `${day}/${month}/${year}`;
-                    }
-                },
-                conversor: {
-                   formatDateTime(horaInicioEnvioPropostas) {
-                     //  this.dataInicioEnvioPropostas = new Date();
+                    },
+                    formatDateTime(horaInicioEnvioPropostas) {
+                        //  this.dataInicioEnvioPropostas = new Date();
                         if (!horaInicioEnvioPropostas) return null
-                      // if (!data.dataInicioEnvioPropostas) return null
-                       console.log(horaInicioEnvioPropostas);
-                       console.log(this.dataInicioEnvioPropostas);
-                       console.log(dataInicioEnvioPropostas);
+                        // if (!data.dataInicioEnvioPropostas) return null
+                        console.log(horaInicioEnvioPropostas);
+                        console.log(this.dataInicioEnvioPropostas);
+                        console.log(dataInicioEnvioPropostas);
                         const data = new Date(this.dataInicioEnvioPropostas)
                         if (typeof this.horaInicioEnvioPropostas === 'String') {
                             let horas = this.horaInicioEnvioPropostas.match(/^(\d+)/)[1]
@@ -378,7 +376,6 @@
                         return horaInicioEnvioPropostas
                     }
                 }
-
             }
         }
 

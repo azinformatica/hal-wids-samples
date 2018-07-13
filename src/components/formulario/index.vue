@@ -126,42 +126,9 @@
 
                                     <v-flex xs12 sm3 d-flex>
                                         <v-dialog
-                                                ref="dialog1"
-                                                v-model="modalDataInicioEnvioPropostas"
-                                                :return-value.sync="dataInicioEnvioPropostas"
-                                                persistent
-                                                lazy
-                                                full-width
-                                                width="290px"
-                                        >
-                                            <v-text-field
-                                                    slot="activator"
-                                                    v-model="methods.formatDate(dataInicioEnvioPropostas)"
-                                                    label="Data Inicio Envio de Propostas"
-                                                    placeholder="00/00/0000"
-                                                    append-icon="event"
-                                                    readonly
-                                            ></v-text-field>
-                                            <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
-                                                           color="cyan darken-4"
-                                                           locale="pt-br">
-                                                <v-spacer></v-spacer>
-                                                <v-btn flat color="primary"
-                                                       @click="modalDataInicioEnvioPropostas = false">Cancel
-                                                </v-btn>
-                                                <v-btn flat color="primary"
-                                                       @click="$refs.dialog1.save(dataInicioEnvioPropostas)">OK
-                                                </v-btn>
-                                            </v-date-picker>
-                                        </v-dialog>
-                                    </v-flex>
-
-
-                                    <v-flex xs12 sm3 d-flex>
-                                        <v-dialog
                                                 ref="dialog"
                                                 v-model="modalHoraInicioEnvioPropostas"
-                                                :return-value.sync="horaInicioEnvioPropostas"
+                                                :return-value.sync="dataHora"
                                                 persistent
                                                 lazy
                                                 full-width
@@ -169,25 +136,25 @@
                                         >
                                             <v-text-field
                                                     slot="activator"
-                                                    v-model="conversor.formatDateTime(horaInicioEnvioPropostas)"
+                                                    v-model="dataHora"
                                                     label="Hora Inicio Envio de Propostas"
-                                                    append-icon="access_time"
+                                                    append-icon="event"
                                                     placeholder="00/00/0000 00:00"
                                                     readonly
                                             ></v-text-field>
                                             <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
                                                            color="cyan darken-4"
-                                                           locale="pt-br" v-show="renderDate">
+                                                           locale="pt-br" v-show="!renderTime">
                                                 <v-spacer></v-spacer>
                                                 <v-btn flat color="primary"
-                                                       @click="modalDataInicioEnvioPropostas = false">Cancel
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
                                                 </v-btn>
                                                 <v-btn flat color="primary"
-                                                       @click="renderTime=true; renderDate=false;">OK
+                                                       @click="renderTime=true">OK
                                                 </v-btn>
                                             </v-date-picker>
                                             <v-time-picker
-                                                    v-if="modalHoraInicioEnvioPropostas"
+                                                    v-if="renderTime"
                                                     v-model="horaInicioEnvioPropostas"
                                                     color="cyan darken-4" v-show="renderTime"
                                             >
@@ -196,18 +163,99 @@
                                                        @click="modalHoraInicioEnvioPropostas = false">Cancel
                                                 </v-btn>
                                                 <v-btn flat color="primary"
-                                                       @click="$refs.dialog.save(horaInicioEnvioPropostas)">OK
+                                                       @click="$renderTime=false; modalHoraInicioEnvioPropostas = false;">OK
+                                                </v-btn>
+                                            </v-time-picker>
+                                        </v-dialog>
+                                    </v-flex>
+
+                                    <v-flex xs12 sm3 d-flex>
+                                        <v-dialog
+                                                ref="dialog"
+                                                v-model="modalHoraInicioEnvioPropostas"
+                                                :return-value.sync="dataHora"
+                                                persistent
+                                                lazy
+                                                full-width
+                                                width="290px"
+                                        >
+                                            <v-text-field
+                                                    slot="activator"
+                                                    v-model="dataHora"
+                                                    label="Hora Inicio Envio de Propostas"
+                                                    append-icon="event"
+                                                    placeholder="00/00/0000 00:00"
+                                                    readonly
+                                            ></v-text-field>
+                                            <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
+                                                           color="cyan darken-4"
+                                                           locale="pt-br" v-show="!renderTime">
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="renderTime=true">OK
+                                                </v-btn>
+                                            </v-date-picker>
+                                            <v-time-picker
+                                                    v-if="renderTime"
+                                                    v-model="horaInicioEnvioPropostas"
+                                                    color="cyan darken-4" v-show="renderTime"
+                                            >
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="$renderTime=false; modalHoraInicioEnvioPropostas = false;">OK
                                                 </v-btn>
                                             </v-time-picker>
                                         </v-dialog>
                                     </v-flex>
                                     <v-flex xs12 sm3 d-flex>
-                                        <v-datetime-picker
-                                                label="Select Datetime"
-                                                :datetime="datetime"
-                                                placeholder="00/00/0000 00:00"
-                                                v-model="datetime">
-                                        </v-datetime-picker>
+                                        <v-dialog
+                                                ref="dialog"
+                                                v-model="modalHoraInicioEnvioPropostas"
+                                                :return-value.sync="dataHora"
+                                                persistent
+                                                lazy
+                                                full-width
+                                                width="290px"
+                                        >
+                                            <v-text-field
+                                                    slot="activator"
+                                                    v-model="dataHora"
+                                                    label="Hora Inicio Envio de Propostas"
+                                                    append-icon="event"
+                                                    placeholder="00/00/0000 00:00"
+                                                    readonly
+                                            ></v-text-field>
+                                            <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
+                                                           color="cyan darken-4"
+                                                           locale="pt-br" v-show="!renderTime">
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="renderTime=true">OK
+                                                </v-btn>
+                                            </v-date-picker>
+                                            <v-time-picker
+                                                    v-if="renderTime"
+                                                    v-model="horaInicioEnvioPropostas"
+                                                    color="cyan darken-4" v-show="renderTime"
+                                            >
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="$renderTime=false; modalHoraInicioEnvioPropostas = false;">OK
+                                                </v-btn>
+                                            </v-time-picker>
+                                        </v-dialog>
                                     </v-flex>
                                     <v-flex xs12 sm12 d-flex>
                                         <v-textarea
@@ -286,14 +334,10 @@
 </template>
 
 <script>
-    import VDatetimePicker from 'vuetify-datetime-picker';
-
     export default {
-        components: {
-            VDatetimePicker
-        },
         data() {
             return {
+                dataHora: null,
                 tipoGrupamento: [
                     {text: "Lote"}
                 ],
@@ -331,7 +375,7 @@
                 renderTime: false,
                 renderDate: true,
                 name: null,
-                datetime:"",
+                datetime: "",
                 registroPreco: null,
                 modalidade: null,
                 tipo: null,
@@ -368,28 +412,7 @@
                         return `${day}/${month}/${year}`;
                     }
                 },
-                conversor: {
-                   formatDateTime(horaInicioEnvioPropostas) {
-                     //  this.dataInicioEnvioPropostas = new Date();
-                        if (!horaInicioEnvioPropostas) return null
-                      // if (!data.dataInicioEnvioPropostas) return null
-                       console.log(horaInicioEnvioPropostas);
-                       console.log(this.dataInicioEnvioPropostas);
-                       console.log(dataInicioEnvioPropostas);
-                        const data = new Date(this.dataInicioEnvioPropostas)
-                        if (typeof this.horaInicioEnvioPropostas === 'String') {
-                            let horas = this.horaInicioEnvioPropostas.match(/^(\d+)/)[1]
-                            const minutos = this.horaInicioEnvioPropostas.match(/:(\d+)/)[1]
-                            data.setHours(horas)
-                            data.setMinutes(minutos)
-                        } else {
-                            data.setHours(this.horaInicioEnvioPropostas.getHours())
-                            data.setMinutes(this.horaInicioEnvioPropostas.getMinutes())
-                        }
-                        console.log(data);
-                        return horaInicioEnvioPropostas
-                    }
-                }
+
 
             }
         }

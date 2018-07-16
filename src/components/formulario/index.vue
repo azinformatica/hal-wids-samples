@@ -125,84 +125,14 @@
                                     </v-flex>
 
                                     <v-flex xs12 sm3 d-flex>
-                                        <v-dialog
-                                                ref="dialog1"
-                                                v-model="modalDataInicioEnvioPropostas"
-                                                :return-value.sync="dataInicioEnvioPropostas"
-                                                persistent
-                                                lazy
-                                                full-width
-                                                width="290px"
-                                        >
-                                            <v-text-field
-                                                    slot="activator"
-                                                    v-model="methods.formatDate(dataInicioEnvioPropostas)"
-                                                    label="Data Inicio Envio de Propostas"
-                                                    placeholder="00/00/0000"
-                                                    append-icon="event"
-                                                    readonly
-                                            ></v-text-field>
-                                            <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
-                                                           color="cyan darken-4"
-                                                           locale="pt-br">
-                                                <v-spacer></v-spacer>
-                                                <v-btn flat color="primary"
-                                                       @click="modalDataInicioEnvioPropostas = false">Cancel
-                                                </v-btn>
-                                                <v-btn flat color="primary"
-                                                       @click="$refs.dialog1.save(dataInicioEnvioPropostas)">OK
-                                                </v-btn>
-                                            </v-date-picker>
-                                        </v-dialog>
-                                    </v-flex>
-
-
-                                    <v-flex xs12 sm3 d-flex>
-                                        <v-dialog
-                                                ref="dialog"
-                                                v-model="modalHoraInicioEnvioPropostas"
-                                                :return-value.sync="horaInicioEnvioPropostas"
-                                                persistent
-                                                lazy
-                                                full-width
-                                                width="290px"
-                                        >
-                                            <v-text-field
-                                                    slot="activator"
-                                                    v-model="conversor.formatDateTime(horaInicioEnvioPropostas)"
-                                                    label="Hora Inicio Envio de Propostas"
-                                                    append-icon="access_time"
-                                                    placeholder="00:00"
-                                                    readonly
-                                            ></v-text-field>
-                                            <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
-                                                           color="cyan darken-4"
-                                                           locale="pt-br" v-show="renderDate">
-                                                <v-spacer></v-spacer>
-                                                <v-btn flat color="primary"
-                                                       @click="modalDataInicioEnvioPropostas = false">Cancel
-                                                </v-btn>
-                                                <v-btn flat color="primary"
-                                                       @click="renderTime=true; renderDate=false;">OK
-                                                </v-btn>
-                                            </v-date-picker>
-                                            <v-time-picker
-                                                    v-if="modalHoraInicioEnvioPropostas"
-                                                    v-model="horaInicioEnvioPropostas"
-                                                    color="cyan darken-4" v-show="renderTime"
-                                            >
-                                                <v-spacer></v-spacer>
-                                                <v-btn flat color="primary"
-                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
-                                                </v-btn>
-                                                <v-btn flat color="primary"
-                                                       @click="$refs.dialog.save(horaInicioEnvioPropostas)">OK
-                                                </v-btn>
-                                            </v-time-picker>
-                                        </v-dialog>
-                                    </v-flex>
-                                    <v-flex xs12 sm3 d-flex>
-
+                                    <v-datetime-picker
+                                            label="Data/Hora Inicio Envio de Propostas"
+                                            color="cyan darken-4"
+                                            locale="pt-br"
+                                            placeholder="00:00"
+                                            preppend-icon="event"
+                                            v-model="datetime">
+                                    </v-datetime-picker>
                                     </v-flex>
                                     <v-flex xs12 sm12 d-flex>
                                         <v-textarea
@@ -247,6 +177,7 @@
                                                 maxLength="24"
                                         ></v-text-field>
                                     </v-flex>
+                                    {{priceFormatted}}
                                     <v-flex xs12 sm3 d-flex>
                                         <v-select
                                                 :items="tipoBeneficio"
@@ -280,6 +211,8 @@
 </template>
 
 <script>
+    var accounting = require("accounting");
+
     export default {
         data() {
             return {
@@ -326,20 +259,11 @@
                 numeroProcesso: null,
                 tipoDisputa: null,
                 tipoRecurso: null,
-                dataInicioEnvioPropostas: null,
-                dateFormatted: null,
-                data: new Date(),
-                time: new Date(),
-                horaInicioEnvioPropostas: null,
-                mostrarHora: false,
-                modalDataInicioEnvioPropostas: false,
-                modalHoraInicioEnvioPropostas: false,
-                preco: null,
-                valorReferencia: 1000,
                 descricao: null,
                 modoVisualizacao: false,
-                estaSalvo: false,
-                price: null,
+                estaSalvo: true,
+                preco: 0,
+                precoFormatado : null,
                 money: {
                     decimal: ',',
                     thousands: '.',
@@ -348,37 +272,14 @@
                     precision: 2,
                     masked: false
                 },
-                methods: {
-                    formatDate(dataInicioEnvioPropostas) {
-                        if (!dataInicioEnvioPropostas) return null
-
-                        const [year, month, day] = dataInicioEnvioPropostas.split('-')
-                        return `${day}/${month}/${year}`;
-                    },
-                    formatDateTime(horaInicioEnvioPropostas) {
-                        //  this.dataInicioEnvioPropostas = new Date();
-                        if (!horaInicioEnvioPropostas) return null
-                        // if (!data.dataInicioEnvioPropostas) return null
-                        console.log(horaInicioEnvioPropostas);
-                        console.log(this.dataInicioEnvioPropostas);
-                        console.log(dataInicioEnvioPropostas);
-                        const data = new Date(this.dataInicioEnvioPropostas)
-                        if (typeof this.horaInicioEnvioPropostas === 'String') {
-                            let horas = this.horaInicioEnvioPropostas.match(/^(\d+)/)[1]
-                            const minutos = this.horaInicioEnvioPropostas.match(/:(\d+)/)[1]
-                            data.setHours(horas)
-                            data.setMinutes(minutos)
-                        } else {
-                            data.setHours(this.horaInicioEnvioPropostas.getHours())
-                            data.setMinutes(this.horaInicioEnvioPropostas.getMinutes())
-                        }
-                        console.log(data);
-                        return horaInicioEnvioPropostas
-                    }
-                }
+                datetime:new Date()
+            }
+        },
+        watch: {
+            preco: function(val, oldVal) {
+                this.precoFormatado = accounting.unformat(val,",");
             }
         }
-
     };
 </script>
 

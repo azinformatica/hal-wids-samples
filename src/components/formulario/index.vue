@@ -5,21 +5,17 @@
                 <div v-bind:class="estaSalvo?'show':'hide'">
                     <div class="itens">
                         <div class="item">
-                            <label>Código</label>
-                            <span>123</span>
+                            <label>Número do Processo</label>
+                            <span>000.000.001/2018</span>
                         </div>
                         <div class="item">
                             <label>Situação</label>
                             <span>Em elaboração</span>
                         </div>
-                        <div class="item">
-                            <label>Data/Hora criação</label>
-                            <span>10/04/2018</span>
-                        </div>
                     </div>
                     <div class="actions">
-                        <a class="action">Devolver</a>
-                        <a class="action-primary">Avançar</a>
+                        <a class="action">Cancelar Publicação</a>
+                        <a class="action-primary">Publicar</a>
                         <a class="icon">
                             <v-icon>get_app</v-icon>
                         </a>
@@ -60,7 +56,7 @@
                                                 :items="modalidades"
                                                 v-model="modalidade"
                                                 label="Modalidade"
-                                                :disabled=modoVisualizacao
+                                                :disabled=true
                                                 placeholder="Selecione"
                                         ></v-select>
                                     </v-flex>
@@ -133,6 +129,146 @@
                                             preppend-icon="event"
                                             v-model="datetime">
                                     </v-datetime-picker>
+                                        <v-dialog
+                                                ref="dialog"
+                                                v-model="modalHoraInicioEnvioPropostas"
+                                                :return-value.sync="dataHora"
+                                                persistent
+                                                lazy
+                                                full-width
+                                                width="290px"
+                                        >
+                                            <v-text-field
+                                                    slot="activator"
+                                                    v-model="dataHora"
+                                                    label="Data/Hora Inicio Envio de Propostas"
+                                                    append-icon="event"
+                                                    placeholder="00/00/0000 00:00"
+                                                    readonly
+                                            ></v-text-field>
+                                            <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
+                                                           color="cyan darken-4"
+                                                           locale="pt-br" v-show="!renderTime">
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="renderTime=true">OK
+                                                </v-btn>
+                                            </v-date-picker>
+                                            <v-time-picker
+                                                    v-if="renderTime"
+                                                    v-model="horaInicioEnvioPropostas"
+                                                    color="cyan darken-4" v-show="renderTime"
+                                            >
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="$renderTime=false; modalHoraInicioEnvioPropostas = false;">OK
+                                                </v-btn>
+                                            </v-time-picker>
+                                        </v-dialog>
+                                    </v-flex>
+
+                                    <v-flex xs12 sm3 d-flex>
+                                        <v-dialog
+                                                ref="dialog"
+                                                v-model="modalHoraInicioEnvioPropostas"
+                                                :return-value.sync="dataHora"
+                                                persistent
+                                                lazy
+                                                full-width
+                                                width="290px"
+                                        >
+                                            <v-text-field
+                                                    slot="activator"
+                                                    v-model="dataHora"
+                                                    label="Data/Hora Fim Envio de Propostas"
+                                                    append-icon="event"
+                                                    placeholder="00/00/0000 00:00"
+                                                    readonly
+                                            ></v-text-field>
+                                            <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
+                                                           color="cyan darken-4"
+                                                           locale="pt-br" v-show="!renderTime">
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="renderTime=true">OK
+                                                </v-btn>
+                                            </v-date-picker>
+                                            <v-time-picker
+                                                    v-if="renderTime"
+                                                    v-model="horaInicioEnvioPropostas"
+                                                    color="cyan darken-4" v-show="renderTime"
+                                            >
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="$renderTime=false; modalHoraInicioEnvioPropostas = false;">OK
+                                                </v-btn>
+                                            </v-time-picker>
+                                        </v-dialog>
+                                    </v-flex>
+                                    <v-flex xs12 sm3 d-flex>
+                                        <v-dialog
+                                                ref="dialog"
+                                                v-model="modalHoraInicioEnvioPropostas"
+                                                :return-value.sync="dataHora"
+                                                persistent
+                                                lazy
+                                                full-width
+                                                width="290px"
+                                        >
+                                            <v-text-field
+                                                    slot="activator"
+                                                    v-model="dataHora"
+                                                    label="Data/Hora Abertura Licitação"
+                                                    append-icon="event"
+                                                    placeholder="00/00/0000 00:00"
+                                                    readonly
+                                            ></v-text-field>
+                                            <v-date-picker v-model="dataInicioEnvioPropostas" scrollable
+                                                           color="cyan darken-4"
+                                                           locale="pt-br" v-show="!renderTime">
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="renderTime=true">OK
+                                                </v-btn>
+                                            </v-date-picker>
+                                            <v-time-picker
+                                                    v-if="renderTime"
+                                                    v-model="horaInicioEnvioPropostas"
+                                                    color="cyan darken-4" v-show="renderTime"
+                                            >
+                                                <v-spacer></v-spacer>
+                                                <v-btn flat color="primary"
+                                                       @click="modalHoraInicioEnvioPropostas = false">Cancel
+                                                </v-btn>
+                                                <v-btn flat color="primary"
+                                                       @click="$renderTime=false; modalHoraInicioEnvioPropostas = false;">OK
+                                                </v-btn>
+                                            </v-time-picker>
+                                        </v-dialog>
+                                    </v-flex>
+                                    <v-flex xs12 sm3 d-flex>
+                                        <v-select
+                                                :items="casasDecimais"
+                                                v-model="casaDecimal"
+                                                label="CasasDecimais"
+                                                :disabled=true
+                                                value="2"
+                                        ></v-select>
                                     </v-flex>
                                     <v-flex xs12 sm12 d-flex>
                                         <v-textarea
@@ -194,6 +330,7 @@
                                                 placeholder="Ex. Lote único da licitação para compra de materiais de expediente"
                                         ></v-text-field>
                                     </v-flex>
+
                                 </v-layout>
                             </v-container>
                         </div>
@@ -204,6 +341,16 @@
                         </div>
                     </v-tab-item>
                 </v-tabs>
+            </div>
+
+            <div class="az-actions-form">
+                <div class="align-left">
+                    <a class="action-secundary">Importar</a>
+                </div>
+                <div class="align-right">
+                    <a class="action-secundary">Cancelar</a>
+                    <a class="action-primary" @click="estaSalvo=true">Salvar</a>
+                </div>
             </div>
         </az-container>
     </div>
@@ -216,19 +363,25 @@
     export default {
         data() {
             return {
+                dataHora: null,
                 tipoGrupamento: [
                     {text: "Lote"}
                 ],
                 tiposRecurso: [
-                    {text: "Bid"}
+                    {text: "Bid"},
+                    {text: "Bird"}
                 ],
                 tipoBeneficio: [
                     {text: "Diferenciado"},
                     {text: "Exclusivo"}
                 ],
+                casasDecimais: [
+                    {text: "1"},
+                    {text: "2"}
+                ],
                 tiposDisputa: [
                     {text: "Valor unitário"},
-                    {text: "Lote"}
+                    {text: "Valor Global"}
                 ],
                 tiposComissao: [
                     {text: "Comissão 01"},
@@ -244,17 +397,18 @@
                 ],
                 tipos: [
                     {text: "Menor Preço"},
-                    {text: "Maior Desconto"},
-                    {text: "Preço e Nota"}
+                    {text: "Maior Desconto"}
                 ],
                 pregoeiro: "Cesar Ricardo Da Silva Nelson",
                 e1: null,
                 e2: null,
                 renderTime: false,
+                casaDecimal: '2',
                 renderDate: true,
                 name: null,
+                datetime: '',
                 registroPreco: null,
-                modalidade: null,
+                modalidade: 'Pregão Eletrônico',
                 tipo: null,
                 numeroProcesso: null,
                 tipoDisputa: null,
@@ -284,6 +438,51 @@
 </script>
 
 <style lang="less">
+    .az-actions-form{
+        padding: 0 20px 20px 20px;
+        justify-content: space-between;
+        display: flex;
+        font-size: 13px;
+
+        .align-left{
+            .action-secundary{
+                padding: 10px 15px;
+                margin-right: 10px;
+                color: #3a6861;
+                border: 1px solid #3a6861;
+                border-radius: 2px;
+                &:hover{
+                    color: white;
+                    border: 1px solid #3a6861;
+                    background-color: #3a6861;
+                }
+            }
+        }
+
+        .align-right{
+            .action-primary{
+                padding: 10px 15px;
+                border: 1px solid #7aa329;
+                background-color: #7aa329;
+                color: white;
+                margin-left: 10px;
+                border-radius: 2px;
+                &:hover{
+                    background-color: lighten(#7aa329, 10%);
+                    border: 1px solid lighten(#7aa329, 10%);
+                }
+            }
+            .action-secundary{
+                padding: 10px 15px;
+                margin-left: 10px;
+                color: #777777;
+
+                &:hover{
+                    color: darkred;
+                }
+            }
+        }
+    }
 
 </style>
 

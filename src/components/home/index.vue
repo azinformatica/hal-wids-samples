@@ -40,11 +40,11 @@
                         :headers="headers"
                         :items="desserts"
                         :loading="false"
-                        :rows-per-page-items="[10,20,50]"
+                        :rows-per-page-items="[5,10,20,50]"
                         class="az-table-list"
-                        prev-icon="mdi-menu-left"
-                        next-icon="mdi-menu-right"
-                        sort-icon="mdi-menu-down"
+                        prev-icon="keyboard_arrow_left"
+                        next-icon="keyboard_arrow_right"
+                        sort-icon="keyboard_arrow_down"
                 >
                     <template slot="items" slot-scope="props">
                         <td>{{ props.item.dataHoraAbertura }}</td>

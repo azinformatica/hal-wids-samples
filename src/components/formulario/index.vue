@@ -179,6 +179,64 @@
                             <v-container fluid grid-list-xl>
                                 <v-layout wrap align-center>
                                     <v-flex xs12 sm3 d-flex>
+                                        <v-text-field
+                                                v-model="numeroEdital"
+                                                required
+                                                label="Número do Edital"
+                                                placeholder="Ex. 123/2018"
+                                        ></v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm12 d-flex>
+                                        <span class="az-subtitle">Anexos do Edital</span>
+                                    </v-flex>
+                                    <v-flex xs12 sm12 d-flex>
+                                        <div class="az-drop-file">
+                                            <a>Carregar arquivos</a>
+                                            <p>Arraste e solte os arquivos aqui para serem carregados.</p>
+                                        </div>
+                                    </v-flex>
+                                    <v-flex xs12 sm12 d-flex>
+                                        <v-data-table
+                                                :headers="headers"
+                                                :items="desserts"
+                                                :loading="false"
+                                                :rows-per-page-items="[10,20,50]"
+                                                class="az-table-list"
+                                                prev-icon="mdi-menu-left"
+                                                next-icon="mdi-menu-right"
+                                                sort-icon="mdi-menu-down"
+                                        >
+                                            <template slot="items" slot-scope="props">
+                                                <td>
+                                                    <v-select
+                                                            :items="tiposAnexos"
+                                                            v-model="tipoAnexo"
+                                                            label=""
+                                                            :disabled=false
+                                                    ></v-select>
+                                                </td>
+                                                <td>{{ props.item.data }}</td>
+                                                <td>{{ props.item.nome }}</td>
+                                                <td class="table-actions">
+                                                    <a>
+                                                        <v-icon>get_app</v-icon>
+                                                    </a>
+                                                    <a>
+                                                        <v-icon>close</v-icon>
+                                                    </a>
+                                                </td>
+                                            </template>
+                                        </v-data-table>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                        </div>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <div class="az-form-content">
+                            <v-container fluid grid-list-xl>
+                                <v-layout wrap align-center>
+                                    <v-flex xs12 sm3 d-flex>
                                         <v-select
                                                 :items="tipoGrupamento"
                                                 v-model="e1"
@@ -220,22 +278,15 @@
                                                 placeholder="Ex. Lote único da licitação para compra de materiais de expediente"
                                         ></v-text-field>
                                     </v-flex>
-
                                 </v-layout>
                             </v-container>
                         </div>
                     </v-tab-item>
-                    <v-tab-item>
-                        <div class="az-form-content">
-                            teste aba 3
-                        </div>
-                    </v-tab-item>
                 </v-tabs>
             </div>
-
             <div class="az-actions-form">
                 <div class="align-left">
-                    <a class="action-secundary">Importar</a>
+                    <a class="action-delete">Excluir Licitação</a>
                 </div>
                 <div class="align-right">
                     <a class="action-secundary">Cancelar</a>
@@ -243,6 +294,7 @@
                 </div>
             </div>
         </az-container>
+
     </div>
 
 </template>
@@ -253,6 +305,43 @@
     export default {
         data() {
             return {
+                headers: [
+                    {
+                        text: 'Tipo',
+                        align: 'left',
+                        sortable: false,
+                        value: 'tipo',
+                        width: '250px',
+                    },
+                    {
+                        text: 'Data',
+                        align: 'left',
+                        sortable: false,
+                        value: 'data',
+                        width: '100px',
+                    },
+                    {
+                        text: 'Nome',
+                        value: 'nome',
+                        sortable: false,
+                        align: 'left',
+                    },
+                    {
+                        text: 'Ações',
+                        value: 'acoes',
+                        sortable: false,
+                        align: 'right',
+                        width: '120px',
+                    }
+                ],
+                desserts: [
+                    {
+                        tipo: 'Anexo',
+                        data: '21/12/2018',
+                        nome: 'ADMINSTRAÇÃO DE AUXILIO ALIMENTAÇÃO.pdf'
+                    }
+                ],
+                numeroEdital: null,
                 dataHora: null,
                 tipoGrupamento: [
                     {text: "Lote"}
@@ -273,6 +362,10 @@
                     {text: "Valor unitário"},
                     {text: "Valor Global"}
                 ],
+                tiposAnexos: [
+                    {text: "Tipo01"},
+                    {text: "Tipo02"}
+                ],
                 tiposComissao: [
                     {text: "Comissão 01"},
                     {text: "Comissão 02"},
@@ -292,6 +385,7 @@
                 pregoeiro: "Cesar Ricardo Da Silva Nelson",
                 e1: null,
                 e2: null,
+                tipoAnexo: null,
                 renderTime: false,
                 casaDecimal: '2',
                 renderDate: true,
@@ -327,46 +421,122 @@
 </script>
 
 <style lang="less">
-    .az-actions-form{
-        padding: 0 20px 20px 20px;
+    .az-table-list {
+        .v-select__selection {
+            font-size: 13px;
+            color: #777;
+        }
+        .v-input__slot {
+            margin: 0;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            padding: 0 10px;
+        }
+        .v-input__slot::before {
+            background-color: unset;
+        }
+        .v-text-field__details {
+            display: none;
+        }
+        .v-input {
+            margin: 0;
+        }
+        .tbody tr td {
+            height: unset;
+        }
+    }
+
+    .az-drop-file {
+        border: 2px dashed #ccc;
+        margin: 10px 0;
+        padding: 30px 0 20px;
+        display: block;
+        align-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: #eeeeee;
+
+        p {
+            width: 100%;
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 0;
+            margin-top: 15px;
+        }
+        a {
+            background-color: #7aa329;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 2px;
+            font-size: 13px;
+            &:hover {
+                background-color: lighten(#7aa329, 10%);
+                border: 1px solid lighten(#7aa329, 10%);
+            }
+        }
+    }
+
+    .az-subtitle {
+        font-size: 16px;
+        font-weight: bold;
+        color: #3a6861;
+        margin: 10px 0;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .az-actions-form {
+        padding: 0 20px 30px 20px;
         justify-content: space-between;
         display: flex;
         font-size: 13px;
 
-        .align-left{
-            .action-secundary{
+        .align-left {
+            .action-secundary {
                 padding: 10px 15px;
                 margin-right: 10px;
                 color: #3a6861;
                 border: 1px solid #3a6861;
                 border-radius: 2px;
-                &:hover{
+                &:hover {
                     color: white;
                     border: 1px solid #3a6861;
                     background-color: #3a6861;
                 }
             }
+
+            .action-delete {
+                padding: 10px 15px;
+                margin-right: 10px;
+                color: #777777;
+                border: 1px solid #777777;
+                border-radius: 2px;
+                &:hover {
+                    color: white;
+                    border: 1px solid #a03232;
+                    background-color: #a03232;
+                }
+            }
         }
 
-        .align-right{
-            .action-primary{
+        .align-right {
+            .action-primary {
                 padding: 10px 15px;
                 border: 1px solid #7aa329;
                 background-color: #7aa329;
                 color: white;
                 margin-left: 10px;
                 border-radius: 2px;
-                &:hover{
+                &:hover {
                     background-color: lighten(#7aa329, 10%);
                     border: 1px solid lighten(#7aa329, 10%);
                 }
             }
-            .action-secundary{
+            .action-secundary {
                 padding: 10px 15px;
                 margin-left: 10px;
                 color: #777777;
 
-                &:hover{
+                &:hover {
                     color: darkred;
                 }
             }

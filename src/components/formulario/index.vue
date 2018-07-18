@@ -12,12 +12,16 @@
                             <label>Situação</label>
                             <span>Em elaboração</span>
                         </div>
+                        <div class="item">
+                            <label>Justificativa</label>
+                            <span>Valor invalido no item.</span>
+                        </div>
                     </div>
                     <div class="actions">
                         <a class="action">Cancelar Publicação</a>
                         <a class="action-primary">Publicar</a>
                         <a class="icon">
-                            <v-icon>get_app</v-icon>
+                            <v-icon>chat</v-icon>
                         </a>
                         <a class="icon">
                             <v-icon>print</v-icon>
@@ -282,6 +286,7 @@
                         <div class="az-actions-form">
                             <div class="align-left">
                                 <a class="action-delete">Excluir Licitação</a>
+                                <a class="action-delete">Suspender Licitação</a>
                             </div>
                             <div class="align-right">
                                 <a class="action-secundary">Cancelar</a>
@@ -307,7 +312,9 @@
                                     </v-flex>
                                     <v-flex xs12 sm12 d-flex>
                                         <div class="az-drop-file">
-                                            <a>Carregar arquivos</a>
+                                            <a @click="possuiItens=true">
+                                                <v-icon>archive</v-icon>
+                                                Importar Arquivos</a>
                                             <p>Arraste e solte os arquivos aqui para serem carregados.</p>
                                         </div>
                                     </v-flex>
@@ -380,7 +387,21 @@
                         <div class="az-form-content">
                             <div class="az-drop-file-big" v-if="!possuiItens">
                                 <a @click="possuiItens=true">Importar Planilia</a>
-                                <p>Arraste e solte a planilia aqui para ser importada.</p>
+                                <p>Baixe o modelo e importe no botão acima.</p>
+                            </div>
+                            <div class="reimport-itens" v-if="possuiItens">
+                                <div class="button-reimport">
+                                    <a @click="possuiItens=true">
+                                        <v-icon>archive</v-icon>
+                                        Reimportar Planilia</a>
+                                </div>
+                                <div class="resume">
+                                    <label>Total Unitário: </label>
+                                    <span>R$ 1.234,09</span>
+                                    <span class="separator">|</span>
+                                    <label>Total Geral: </label>
+                                    <span>R$ 12.340,90</span>
+                                </div>
                             </div>
                             <div v-if="possuiItens">
                                 <v-flex xs12 sm12 d-flex>
@@ -406,6 +427,17 @@
                                         </template>
                                     </v-data-table>
                                 </v-flex>
+                            </div>
+                            <div class="reimport-itens" v-if="possuiItens">
+                                <div class="button-reimport">
+                                </div>
+                                <div class="resume">
+                                    <label>Total Unitário: </label>
+                                    <span>R$ 1.234,09</span>
+                                    <span class="separator">|</span>
+                                    <label>Total Geral: </label>
+                                    <span>R$ 12.340,90</span>
+                                </div>
                             </div>
                         </div>
                     </v-tab-item>
@@ -522,7 +554,175 @@
                 dessertsItens: [
                     {
                         lote: '001',
-                        meEpp:'Sim',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    },
+                    {
+                        lote: '001',
+                        meEpp: 'Sim',
                         item: '001',
                         descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
                         quantidade: '500,00',
@@ -643,6 +843,50 @@
 </script>
 
 <style lang="less">
+    .reimport-itens {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        margin-top: 10px;
+
+        .button-reimport a {
+            background-color: #d28a2C;
+            color: white;
+            padding: 10px 15px 10px 10px;
+            border-radius: 2px;
+            font-size: 13px;
+            &:hover {
+                background-color: lighten(#d28a2C, 10%);
+                border: 1px solid lighten(#d28a2C, 10%) !important;
+            }
+            i {
+                color: white;
+                position: relative;
+                top: 2px;
+                font-size: 18px;
+                margin-right: 5px;
+            }
+        }
+
+        .resume {
+            .separator {
+                margin: 0 15px;
+            }
+
+            label {
+                font-weight: bold;
+                font-size: 13px;
+                color: #777777;
+            }
+            span {
+                font-weight: normal;
+                font-size: 13px;
+                color: #777777;
+
+            }
+        }
+    }
+
     .az-table-list {
         tr {
             &:hover {
@@ -652,7 +896,7 @@
             }
             .teste {
                 display: none;
-                i{
+                i {
                     font-size: 16px;
                     margin-left: 10px;
                 }
@@ -660,7 +904,7 @@
         }
     }
 
-    .az-container .az-table-list thead tr th{
+    .az-container .az-table-list thead tr th {
         padding: 0 10px !important;
     }
 
@@ -688,7 +932,7 @@
             height: unset;
             padding: 0 10px !important;
         }
-        thead tr th{
+        thead tr th {
             padding: 0 10px !important;
         }
     }
@@ -703,7 +947,7 @@
         text-align: center;
         background-color: #eeeeee;
 
-        &__big{
+        &__big {
             padding: 70px 0 60px !important;
         }
 
@@ -715,14 +959,21 @@
             margin-top: 15px;
         }
         a {
-            background-color: #7aa329;
+            background-color: #d28a2C;
             color: white;
-            padding: 10px 15px;
+            padding: 10px 15px 10px 10px;
             border-radius: 2px;
             font-size: 13px;
             &:hover {
-                background-color: lighten(#7aa329, 10%);
-                border: 1px solid lighten(#7aa329, 10%);
+                background-color: lighten(#d28a2C, 10%);
+                border: 1px solid lighten(#d28a2C, 10%) !important;
+            }
+            i {
+                color: white !important;
+                position: relative;
+                top: 2px;
+                font-size: 18px;
+                margin-right: 5px;
             }
         }
     }
@@ -745,14 +996,21 @@
             margin-top: 15px;
         }
         a {
-            background-color: #7aa329;
+            background-color: #d28a2C;
             color: white;
-            padding: 10px 15px;
+            padding: 10px 15px 10px 10px;
             border-radius: 2px;
             font-size: 13px;
             &:hover {
-                background-color: lighten(#7aa329, 10%);
-                border: 1px solid lighten(#7aa329, 10%);
+                background-color: lighten(#d28a2C, 10%);
+                border: 1px solid lighten(#d28a2C, 10%) !important;
+            }
+            i {
+                color: white !important;
+                position: relative;
+                top: 2px;
+                font-size: 18px;
+                margin-right: 5px;
             }
         }
     }

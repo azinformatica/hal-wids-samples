@@ -27,7 +27,7 @@
             </az-internal-bar>
 
             <div class="az-tabs">
-                <v-tabs left>
+                <v-tabs left v-model="Itens">
                     <v-tab>
                         Dados da Licitação
                     </v-tab>
@@ -35,7 +35,7 @@
                         Dados do Edital
                     </v-tab>
                     <v-tab :disabled=!estaSalvo>
-                        Lotes
+                        Lotes/Itens
                     </v-tab>
                     <v-tab-item>
                         <div class="az-form-content">
@@ -172,7 +172,18 @@
                                     </v-flex>
                                 </v-layout>
                             </v-container>
+
                         </div>
+                        <div class="az-actions-form">
+                            <div class="align-left">
+                                <a class="action-delete">Excluir Licitação</a>
+                            </div>
+                            <div class="align-right">
+                                <a class="action-secundary">Cancelar</a>
+                                <a class="action-primary" @click="estaSalvo=true">Salvar</a>
+                            </div>
+                        </div>
+
                     </v-tab-item>
                     <v-tab-item>
                         <div class="az-form-content">
@@ -205,6 +216,7 @@
                                                 prev-icon="mdi-menu-left"
                                                 next-icon="mdi-menu-right"
                                                 sort-icon="mdi-menu-down"
+                                                :class="teste"
                                         >
                                             <template slot="items" slot-scope="props">
                                                 <td>
@@ -215,7 +227,34 @@
                                                             :disabled=false
                                                     ></v-select>
                                                 </td>
-                                                <td>{{ props.item.data }}</td>
+                                                <td>
+                                                    <span>{{ props.item.data }}</span>
+                                                    <v-dialog
+                                                            v-model="dialog"
+                                                            width="500"
+                                                    >
+
+                                                        <a slot="activator" class="teste">
+                                                            <v-icon>edit</v-icon>
+                                                        </a>
+
+                                                        <v-card>
+                                                            <v-card-text>
+                                                                teste
+                                                            </v-card-text>
+                                                            <v-card-actions>
+                                                                <v-spacer></v-spacer>
+                                                                <v-btn
+                                                                        color="primary"
+                                                                        flat
+                                                                        @click="dialog = false"
+                                                                >
+                                                                    OK
+                                                                </v-btn>
+                                                            </v-card-actions>
+                                                        </v-card>
+                                                    </v-dialog>
+                                                </td>
                                                 <td>{{ props.item.nome }}</td>
                                                 <td class="table-actions">
                                                     <a>
@@ -234,69 +273,91 @@
                     </v-tab-item>
                     <v-tab-item>
                         <div class="az-form-content">
-                            <v-container fluid grid-list-xl>
-                                <v-layout wrap align-center>
-                                    <v-flex xs12 sm3 d-flex>
-                                        <v-select
-                                                :items="tipoGrupamento"
-                                                v-model="e1"
-                                                label="Tipo de Grupamento"
-                                                placeholder="Ex. Lote"
-                                        ></v-select>
-                                    </v-flex>
-                                    <v-flex xs12 sm3 d-flex>
-                                        <v-text-field
-                                                v-model="name"
-                                                required
-                                                label="Nome"
-                                                placeholder="Lote01"
-                                        ></v-text-field>
-                                    </v-flex>
-                                    <v-flex xs12 sm3 d-flex>
-                                        <v-text-field
-                                                required
-                                                label="Valor de Referência"
-                                                placeholder="R$ 0,00"
-                                                v-model.lazy="preco" v-money="money"
-                                                maxLength="24"
-                                        ></v-text-field>
-                                    </v-flex>
-                                    {{precoFormatado}}
-                                    <v-flex xs12 sm3 d-flex>
-                                        <v-select
-                                                :items="tipoBeneficio"
-                                                v-model="e2"
-                                                label="Tipo de Benefício"
-                                                placeholder="Ex. Diferenciado"
-                                        ></v-select>
-                                    </v-flex>
-                                    <v-flex xs12 sm12 d-flex>
-                                        <v-text-field
-                                                v-model="descricao"
-                                                required
-                                                label="Descrição"
-                                                placeholder="Ex. Lote único da licitação para compra de materiais de expediente"
-                                        ></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
+                            <div class="az-drop-file-big" v-if="!possuiItens">
+                                <a @click="possuiItens=true">Importar Planilia</a>
+                                <p>Arraste e solte a planilia aqui para ser importada.</p>
+                            </div>
+                            <div v-if="possuiItens">
+                                <v-flex xs12 sm12 d-flex>
+                                    <v-data-table
+                                            :headers="headersItens"
+                                            :items="dessertsItens"
+                                            :loading="false"
+                                            hide-actions
+                                            class="az-table-list"
+                                            sort-icon="mdi-menu-down"
+                                    >
+                                        <template slot="items" slot-scope="props">
+                                            <td>{{ props.item.lote }}</td>
+                                            <td>{{ props.item.meEpp }}</td>
+                                            <td>{{ props.item.item }}</td>
+                                            <td>{{ props.item.descricao }}</td>
+                                            <td>{{ props.item.ficha }}</td>
+                                            <td>{{ props.item.catalogo }}</td>
+                                            <td>{{ props.item.unidade }}</td>
+                                            <td style="text-align: right;">{{ props.item.quantidade }}</td>
+                                            <td style="text-align: right;">{{ props.item.valorUnitario }}</td>
+                                            <td style="text-align: right;">{{ props.item.valorTotal }}</td>
+                                        </template>
+                                    </v-data-table>
+                                </v-flex>
+                            </div>
                         </div>
                     </v-tab-item>
+                    <!--<v-tab-item>-->
+                        <!--<div class="az-form-content">-->
+                            <!--<v-container fluid grid-list-xl>-->
+                                <!--<v-layout wrap align-center>-->
+                                    <!--<v-flex xs12 sm3 d-flex>-->
+                                        <!--<v-select-->
+                                                <!--:items="tipoGrupamento"-->
+                                                <!--v-model="e1"-->
+                                                <!--label="Tipo de Grupamento"-->
+                                                <!--placeholder="Ex. Lote"-->
+                                        <!--&gt;</v-select>-->
+                                    <!--</v-flex>-->
+                                    <!--<v-flex xs12 sm3 d-flex>-->
+                                        <!--<v-text-field-->
+                                                <!--v-model="name"-->
+                                                <!--required-->
+                                                <!--label="Nome"-->
+                                                <!--placeholder="Lote01"-->
+                                        <!--&gt;</v-text-field>-->
+                                    <!--</v-flex>-->
+                                    <!--<v-flex xs12 sm3 d-flex>-->
+                                        <!--<v-text-field-->
+                                                <!--required-->
+                                                <!--label="Valor de Referência"-->
+                                                <!--placeholder="R$ 0,00"-->
+                                                <!--v-model.lazy="preco" v-money="money"-->
+                                                <!--maxLength="24"-->
+                                        <!--&gt;</v-text-field>-->
+                                    <!--</v-flex>-->
+                                    <!--{{precoFormatado}}-->
+                                    <!--<v-flex xs12 sm3 d-flex>-->
+                                        <!--<v-select-->
+                                                <!--:items="tipoBeneficio"-->
+                                                <!--v-model="e2"-->
+                                                <!--label="Tipo de Benefício"-->
+                                                <!--placeholder="Ex. Diferenciado"-->
+                                        <!--&gt;</v-select>-->
+                                    <!--</v-flex>-->
+                                    <!--<v-flex xs12 sm12 d-flex>-->
+                                        <!--<v-text-field-->
+                                                <!--v-model="descricao"-->
+                                                <!--required-->
+                                                <!--label="Descrição"-->
+                                                <!--placeholder="Ex. Lote único da licitação para compra de materiais de expediente"-->
+                                        <!--&gt;</v-text-field>-->
+                                    <!--</v-flex>-->
+                                <!--</v-layout>-->
+                            <!--</v-container>-->
+                        <!--</div>-->
+                    <!--</v-tab-item>-->
                 </v-tabs>
             </div>
-            <div class="az-actions-form">
-                <div class="align-left">
-                    <a class="action-delete">Excluir Licitação</a>
-                </div>
-                <div class="align-right">
-                    <a class="action-secundary">Cancelar</a>
-                    <a class="action-primary" @click="estaSalvo=true">Salvar</a>
-                </div>
-            </div>
         </az-container>
-
     </div>
-
 </template>
 
 <script>
@@ -318,7 +379,7 @@
                         align: 'left',
                         sortable: false,
                         value: 'data',
-                        width: '100px',
+                        width: '150px',
                     },
                     {
                         text: 'Nome',
@@ -334,11 +395,106 @@
                         width: '120px',
                     }
                 ],
+                headersItens: [
+                    {
+                        text: 'Lote',
+                        align: 'left',
+                        sortable: true,
+                        value: 'lote',
+                        width: '50px',
+                    },
+                    {
+                        text: 'ME/EPP',
+                        align: 'left',
+                        sortable: true,
+                        value: 'meEpp',
+                        width: '50px',
+                    },
+                    {
+                        text: 'Item',
+                        align: 'left',
+                        sortable: true,
+                        value: 'item',
+                        width: '50px',
+                    },
+                    {
+                        text: 'Descrição',
+                        value: 'descricao',
+                        sortable: true,
+                        align: 'left',
+                    },
+                    {
+                        text: 'Ficha',
+                        value: 'ficha',
+                        sortable: true,
+                        align: 'left',
+                        width: '50px',
+                    },
+                    {
+                        text: 'Catálogo',
+                        value: 'catalogo',
+                        sortable: true,
+                        align: 'left',
+                        width: '50px',
+                    },
+                    {
+                        text: 'Unidade',
+                        value: 'unidade',
+                        sortable: true,
+                        align: 'left',
+                        width: '100px',
+                    },
+                    {
+                        text: 'Qtde',
+                        value: 'quantidade',
+                        sortable: false,
+                        align: 'right',
+                        width: '100px',
+                    },
+                    {
+                        text: 'Unitário(R$)',
+                        value: 'valorUnitario',
+                        sortable: false,
+                        align: 'right',
+                        width: '100px',
+                    },
+                    {
+                        text: 'Total(R$)',
+                        value: 'valorTotal',
+                        sortable: false,
+                        align: 'right',
+                        width: '100px',
+                    }
+                ],
+                dessertsItens: [
+                    {
+                        lote: '001',
+                        meEpp:'Sim',
+                        item: '001',
+                        descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
+                        quantidade: '500,00',
+                        unidade: 'Caixa',
+                        ficha: 'Sim',
+                        catalogo: 'Não',
+                        valorUnitario: '5.289,90',
+                        valorTotal: '26.449,50',
+                    }
+                ],
                 desserts: [
                     {
                         tipo: 'Anexo',
                         data: '21/12/2018',
                         nome: 'ADMINSTRAÇÃO DE AUXILIO ALIMENTAÇÃO.pdf'
+                    },
+                    {
+                        tipo: 'Anexo',
+                        data: '22/12/2018',
+                        nome: 'ATESTADO NADA CONSTA.pdf'
+                    },
+                    {
+                        tipo: 'Anexo',
+                        data: '22/12/2018',
+                        nome: 'DOCUMENTO CERCA.pdf'
                     }
                 ],
                 numeroEdital: null,
@@ -398,6 +554,7 @@
                 tipoRecurso: null,
                 descricao: null,
                 modoVisualizacao: false,
+                possuiItens: false,
                 estaSalvo: true,
                 preco: 0,
                 precoFormatado : null,
@@ -422,6 +579,27 @@
 
 <style lang="less">
     .az-table-list {
+        tr {
+            &:hover {
+                .teste {
+                    display: unset;
+                }
+            }
+            .teste {
+                display: none;
+                i{
+                    font-size: 16px;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    .az-container .az-table-list thead tr th{
+        padding: 0 10px !important;
+    }
+
+    .az-table-list {
         .v-select__selection {
             font-size: 13px;
             color: #777;
@@ -441,8 +619,12 @@
         .v-input {
             margin: 0;
         }
-        .tbody tr td {
+        tbody tr td {
             height: unset;
+            padding: 0 10px !important;
+        }
+        thead tr th{
+            padding: 0 10px !important;
         }
     }
 
@@ -450,6 +632,40 @@
         border: 2px dashed #ccc;
         margin: 10px 0;
         padding: 30px 0 20px;
+        display: block;
+        align-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: #eeeeee;
+
+        &__big{
+            padding: 70px 0 60px !important;
+        }
+
+        p {
+            width: 100%;
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 0;
+            margin-top: 15px;
+        }
+        a {
+            background-color: #7aa329;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 2px;
+            font-size: 13px;
+            &:hover {
+                background-color: lighten(#7aa329, 10%);
+                border: 1px solid lighten(#7aa329, 10%);
+            }
+        }
+    }
+
+    .az-drop-file-big {
+        border: 2px dashed #ccc;
+        margin: 10px 0;
+        padding: 70px 0 60px;
         display: block;
         align-content: center;
         align-items: center;
@@ -507,8 +723,8 @@
             .action-delete {
                 padding: 10px 15px;
                 margin-right: 10px;
-                color: #777777;
-                border: 1px solid #777777;
+                color: #cccccc;
+                border: 1px solid #cccccc;
                 border-radius: 2px;
                 &:hover {
                     color: white;

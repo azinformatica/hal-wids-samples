@@ -346,57 +346,7 @@
                                 </div>
                             </div>
                         </div>
-                    </v-tab-item>
-                    <!--<v-tab-item>-->
-                    <!--<div class="az-form-content">-->
-                    <!--<v-container fluid grid-list-xl>-->
-                    <!--<v-layout wrap align-center>-->
-                    <!--<v-flex xs12 sm3 d-flex>-->
-                    <!--<v-select-->
-                    <!--:items="tipoGrupamento"-->
-                    <!--v-model="e1"-->
-                    <!--label="Tipo de Grupamento"-->
-                    <!--placeholder="Ex. Lote"-->
-                    <!--&gt;</v-select>-->
-                    <!--</v-flex>-->
-                    <!--<v-flex xs12 sm3 d-flex>-->
-                    <!--<v-text-field-->
-                    <!--v-model="name"-->
-                    <!--required-->
-                    <!--label="Nome"-->
-                    <!--placeholder="Lote01"-->
-                    <!--&gt;</v-text-field>-->
-                    <!--</v-flex>-->
-                    <!--<v-flex xs12 sm3 d-flex>-->
-                    <!--<v-text-field-->
-                    <!--required-->
-                    <!--label="Valor de Referência"-->
-                    <!--placeholder="R$ 0,00"-->
-                    <!--v-model.lazy="preco" v-money="money"-->
-                    <!--maxLength="24"-->
-                    <!--&gt;</v-text-field>-->
-                    <!--</v-flex>-->
-                    <!--{{precoFormatado}}-->
-                    <!--<v-flex xs12 sm3 d-flex>-->
-                    <!--<v-select-->
-                    <!--:items="tipoBeneficio"-->
-                    <!--v-model="e2"-->
-                    <!--label="Tipo de Benefício"-->
-                    <!--placeholder="Ex. Diferenciado"-->
-                    <!--&gt;</v-select>-->
-                    <!--</v-flex>-->
-                    <!--<v-flex xs12 sm12 d-flex>-->
-                    <!--<v-text-field-->
-                    <!--v-model="descricao"-->
-                    <!--required-->
-                    <!--label="Descrição"-->
-                    <!--placeholder="Ex. Lote único da licitação para compra de materiais de expediente"-->
-                    <!--&gt;</v-text-field>-->
-                    <!--</v-flex>-->
-                    <!--</v-layout>-->
-                    <!--</v-container>-->
-                    <!--</div>-->
-                    <!--</v-tab-item>-->
+                    </v-tab-item>                   
                 </v-tabs>
             </div>
         </az-container>

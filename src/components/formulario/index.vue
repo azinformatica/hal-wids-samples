@@ -31,7 +31,7 @@
             </az-internal-bar>
 
             <div class="az-tabs">
-                <v-tabs left v-model="Itens">
+                <v-tabs left>
                     <v-tab>
                         Dados da Licitação
                     </v-tab>
@@ -123,7 +123,6 @@
                                             </p>
                                         </div>
                                     </v-flex>
-
                                     <v-flex xs12 sm3 d-flex>
                                         <v-dialog
                                                 ref="dialog"
@@ -169,7 +168,6 @@
                                             </v-time-picker>
                                         </v-dialog>
                                     </v-flex>
-
                                     <v-flex xs12 sm3 d-flex>
                                         <v-dialog
                                                 ref="dialog"
@@ -276,12 +274,10 @@
                                                 placeholder="Ex. Compra de Material de Expediente"
                                                 value=""
                                                 required
-                                                hint="Descreva o objeto do processo"
                                         ></v-textarea>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
-
                         </div>
                         <div class="az-actions-form">
                             <div class="align-left">
@@ -293,7 +289,6 @@
                                 <a class="action-primary" @click="estaSalvo=true">Salvar</a>
                             </div>
                         </div>
-
                     </v-tab-item>
                     <v-tab-item>
                         <div class="az-form-content">
@@ -303,7 +298,7 @@
                                         <v-text-field
                                                 v-model="numeroEdital"
                                                 required
-                                                label="Número do Edital"
+                                                label="Número do Edital *"
                                                 placeholder="Ex. 123/2018"
                                         ></v-text-field>
                                     </v-flex>
@@ -312,7 +307,7 @@
                                     </v-flex>
                                     <v-flex xs12 sm12 d-flex>
                                         <div class="az-drop-file">
-                                            <a @click="possuiItens=true">
+                                            <a>
                                                 <v-icon>archive</v-icon>
                                                 Importar Arquivos</a>
                                             <p>Arraste e solte os arquivos aqui para serem carregados.</p>
@@ -328,7 +323,6 @@
                                                 prev-icon="mdi-menu-left"
                                                 next-icon="mdi-menu-right"
                                                 sort-icon="mdi-menu-down"
-                                                :class="teste"
                                         >
                                             <template slot="items" slot-scope="props">
                                                 <td>
@@ -345,11 +339,9 @@
                                                             v-model="dialog"
                                                             width="500"
                                                     >
-
                                                         <a slot="activator" class="teste">
                                                             <v-icon>edit</v-icon>
                                                         </a>
-
                                                         <v-card>
                                                             <v-card-text>
                                                                 teste

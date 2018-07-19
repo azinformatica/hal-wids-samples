@@ -51,28 +51,48 @@
                         sort-icon="keyboard_arrow_down"
                 >
                     <template slot="items" slot-scope="props">
-                        <td>{{ props.item.dataHoraAbertura }}</td>
-                        <td>{{ props.item.numeroEdital }}</td>
-                        <td>{{ props.item.objeto }}</td>
-                        <td>{{ props.item.responsavel }}</td>
-                        <td>{{ props.item.modalidade }}</td>
-                        <td :class="{'status-active': props.item.status === 'Em Andamento', 'status': props.item.status !== 'Em Andamento'}">
-                            <span>{{ props.item.status }}<v-icon>play_arrow</v-icon></span>
-                        </td>
-                        <td class="table-actions">
-                            <a>
-                                <v-icon>search</v-icon>
-                            </a>
-                            <a>
-                                <v-icon>edit</v-icon>
-                            </a>
-                        </td>
+                        <tr :class="{'background-active': props.item.status === 'Em Andamento'}">
+                            <td>{{
+                                props.item.dataHoraAbertura }}
+                            </td>
+                            <td>{{
+                                props.item.numeroEdital }}
+                            </td>
+                            <td>{{ props.item.objeto
+                                }}
+                            </td>
+                            <td>{{
+                                props.item.responsavel }}
+                            </td>
+                            <td>{{
+                                props.item.modalidade }}
+                            </td>
+                            <td :class="{'status-active': props.item.status === 'Em Andamento', 'status': props.item.status !== 'Em Andamento'}">
+                                <span v-if="props.item.status !== 'Em Andamento'">{{ props.item.status }}</span>
+                                <a v-if="props.item.status === 'Em Andamento'">{{ props.item.status }}
+                                    <v-icon>play_arrow</v-icon>
+                                </a>
+                            </td>
+                            <td class="table-actions">
+                                <v-tooltip top>
+                                    <a slot="activator">
+                                        <v-icon>search</v-icon>
+                                    </a>
+                                    <span>Visualizar</span>
+                                </v-tooltip>
+                                <v-tooltip top>
+                                    <a slot="activator">
+                                        <v-icon>edit</v-icon>
+                                    </a>
+                                    <span>Editar</span>
+                                </v-tooltip>
+                            </td>
+                        </tr>
                     </template>
                 </v-data-table>
             </az-form>
         </az-container>
     </div>
-
 </template>
 
 
@@ -286,6 +306,20 @@
 </script>
 
 <style lang="less">
+    .az-container .az-table-list tbody tr:nth-child(even) {
+        background-color: white !important;
+        &:hover {
+            background-color: #eee !important;
+        }
+    }
+
+    .background-active {
+        background-color: #f0edc6;
+        &:hover {
+            background-color: darken(#f0edc6, 10%) !important;
+        }
+    }
+
     .status {
         span {
             color: #777777;
@@ -294,15 +328,18 @@
             }
         }
     }
+
     .status-active {
-        span {
+        a {
+            text-decoration: underline;
             position: relative;
             top: -5px;
-            color: orange;
+            color: #c6762b;
             i {
                 position: relative;
                 top: 5px;
-                color: orange !important;
+                font-size: 26px;
+                color: #c6762b !important;
             }
         }
     }

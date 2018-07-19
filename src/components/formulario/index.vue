@@ -10,12 +10,31 @@
                         </div>
                         <div class="item">
                             <label>Situação</label>
-                            <span>Em elaboração</span>
+                            <span>{{situacao}}</span>
                         </div>
                     </div>
                     <div class="actions">
-                        <a class="action">Cancelar Publicação</a>
-                        <a class="action-primary">Publicar</a>
+                        <v-layout row justify-center>
+                            <v-dialog v-model="dialogPublicar" persistent max-width="290">
+                                <a class="action-primary" v-if="publicado === false" slot="activator">Publicar</a>
+                                <a class="action" v-if="publicado === true" slot="activator">Cancelar Publicação</a>
+                                <v-card>
+                                    <v-card-text v-if="publicado === false">Deseja realmente efetuar a publicação?
+                                    </v-card-text>
+                                    <v-card-text v-if="publicado === true">Deseja realmente cancelar a publicação?
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="green darken-1" flat @click.native="dialogPublicar = false">Não
+                                        </v-btn>
+                                        <v-btn color="green darken-1" flat
+                                               @click="publicado = !publicado ; dialogPublicar = false">Sim
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+
+                        </v-layout>
                         <a class="icon">
                             <v-icon>get_app</v-icon>
                         </a>
@@ -121,14 +140,14 @@
                                     </v-flex>
 
                                     <v-flex xs12 sm3 d-flex>
-                                    <v-datetime-picker
-                                            label="Data/Hora Inicio Envio de Propostas"
-                                            color="cyan darken-4"
-                                            locale="pt-br"
-                                            placeholder="00/00/0000 00:00"
-                                            preppend-icon="event"
-                                            v-model="datetime">
-                                    </v-datetime-picker>
+                                        <v-datetime-picker
+                                                label="Data/Hora Inicio Envio de Propostas"
+                                                color="cyan darken-4"
+                                                locale="pt-br"
+                                                placeholder="00/00/0000 00:00"
+                                                preppend-icon="event"
+                                                v-model="datetime">
+                                        </v-datetime-picker>
                                     </v-flex>
 
                                     <v-flex xs12 sm3 d-flex>
@@ -287,7 +306,8 @@
                                             class="az-table-list"
                                             sort-icon="mdi-menu-down"
                                     >
-                                        <template slot="items" slot-scope="props">
+                                        <template slot="items" slot-scope="props" class="templateteste">
+                                            <tr :active="props.selected" @click="props.selected = !props.selected" style="background-color: aqua">
                                             <td>{{ props.item.lote }}</td>
                                             <td>{{ props.item.meEpp }}</td>
                                             <td>{{ props.item.item }}</td>
@@ -298,6 +318,7 @@
                                             <td style="text-align: right;">{{ props.item.quantidade }}</td>
                                             <td style="text-align: right;">{{ props.item.valorUnitario }}</td>
                                             <td style="text-align: right;">{{ props.item.valorTotal }}</td>
+                                            <tr/>
                                         </template>
                                     </v-data-table>
                                 </v-flex>
@@ -305,54 +326,54 @@
                         </div>
                     </v-tab-item>
                     <!--<v-tab-item>-->
-                        <!--<div class="az-form-content">-->
-                            <!--<v-container fluid grid-list-xl>-->
-                                <!--<v-layout wrap align-center>-->
-                                    <!--<v-flex xs12 sm3 d-flex>-->
-                                        <!--<v-select-->
-                                                <!--:items="tipoGrupamento"-->
-                                                <!--v-model="e1"-->
-                                                <!--label="Tipo de Grupamento"-->
-                                                <!--placeholder="Ex. Lote"-->
-                                        <!--&gt;</v-select>-->
-                                    <!--</v-flex>-->
-                                    <!--<v-flex xs12 sm3 d-flex>-->
-                                        <!--<v-text-field-->
-                                                <!--v-model="name"-->
-                                                <!--required-->
-                                                <!--label="Nome"-->
-                                                <!--placeholder="Lote01"-->
-                                        <!--&gt;</v-text-field>-->
-                                    <!--</v-flex>-->
-                                    <!--<v-flex xs12 sm3 d-flex>-->
-                                        <!--<v-text-field-->
-                                                <!--required-->
-                                                <!--label="Valor de Referência"-->
-                                                <!--placeholder="R$ 0,00"-->
-                                                <!--v-model.lazy="preco" v-money="money"-->
-                                                <!--maxLength="24"-->
-                                        <!--&gt;</v-text-field>-->
-                                    <!--</v-flex>-->
-                                    <!--{{precoFormatado}}-->
-                                    <!--<v-flex xs12 sm3 d-flex>-->
-                                        <!--<v-select-->
-                                                <!--:items="tipoBeneficio"-->
-                                                <!--v-model="e2"-->
-                                                <!--label="Tipo de Benefício"-->
-                                                <!--placeholder="Ex. Diferenciado"-->
-                                        <!--&gt;</v-select>-->
-                                    <!--</v-flex>-->
-                                    <!--<v-flex xs12 sm12 d-flex>-->
-                                        <!--<v-text-field-->
-                                                <!--v-model="descricao"-->
-                                                <!--required-->
-                                                <!--label="Descrição"-->
-                                                <!--placeholder="Ex. Lote único da licitação para compra de materiais de expediente"-->
-                                        <!--&gt;</v-text-field>-->
-                                    <!--</v-flex>-->
-                                <!--</v-layout>-->
-                            <!--</v-container>-->
-                        <!--</div>-->
+                    <!--<div class="az-form-content">-->
+                    <!--<v-container fluid grid-list-xl>-->
+                    <!--<v-layout wrap align-center>-->
+                    <!--<v-flex xs12 sm3 d-flex>-->
+                    <!--<v-select-->
+                    <!--:items="tipoGrupamento"-->
+                    <!--v-model="e1"-->
+                    <!--label="Tipo de Grupamento"-->
+                    <!--placeholder="Ex. Lote"-->
+                    <!--&gt;</v-select>-->
+                    <!--</v-flex>-->
+                    <!--<v-flex xs12 sm3 d-flex>-->
+                    <!--<v-text-field-->
+                    <!--v-model="name"-->
+                    <!--required-->
+                    <!--label="Nome"-->
+                    <!--placeholder="Lote01"-->
+                    <!--&gt;</v-text-field>-->
+                    <!--</v-flex>-->
+                    <!--<v-flex xs12 sm3 d-flex>-->
+                    <!--<v-text-field-->
+                    <!--required-->
+                    <!--label="Valor de Referência"-->
+                    <!--placeholder="R$ 0,00"-->
+                    <!--v-model.lazy="preco" v-money="money"-->
+                    <!--maxLength="24"-->
+                    <!--&gt;</v-text-field>-->
+                    <!--</v-flex>-->
+                    <!--{{precoFormatado}}-->
+                    <!--<v-flex xs12 sm3 d-flex>-->
+                    <!--<v-select-->
+                    <!--:items="tipoBeneficio"-->
+                    <!--v-model="e2"-->
+                    <!--label="Tipo de Benefício"-->
+                    <!--placeholder="Ex. Diferenciado"-->
+                    <!--&gt;</v-select>-->
+                    <!--</v-flex>-->
+                    <!--<v-flex xs12 sm12 d-flex>-->
+                    <!--<v-text-field-->
+                    <!--v-model="descricao"-->
+                    <!--required-->
+                    <!--label="Descrição"-->
+                    <!--placeholder="Ex. Lote único da licitação para compra de materiais de expediente"-->
+                    <!--&gt;</v-text-field>-->
+                    <!--</v-flex>-->
+                    <!--</v-layout>-->
+                    <!--</v-container>-->
+                    <!--</div>-->
                     <!--</v-tab-item>-->
                 </v-tabs>
             </div>
@@ -469,7 +490,7 @@
                 dessertsItens: [
                     {
                         lote: '001',
-                        meEpp:'Sim',
+                        meEpp: 'Sim',
                         item: '001',
                         descricao: 'Enim maecenas duis pulvinar a posuere duis consequat et ultricies consequat arcu dapibus, donec class aliquet massa pharetra venenatis aliquet a hac amet. nunc ipsum commodo habitasse tempor, sed imperdiet.',
                         quantidade: '500,00',
@@ -541,6 +562,7 @@
                 pregoeiro: "Cesar Ricardo Da Silva Nelson",
                 e1: null,
                 e2: null,
+                publicado: false,
                 tipoAnexo: null,
                 renderTime: false,
                 casaDecimal: '2',
@@ -555,9 +577,15 @@
                 descricao: null,
                 modoVisualizacao: false,
                 possuiItens: false,
-                estaSalvo: true,
+                Itens: null,
+                estaSalvo: false,
                 preco: 0,
-                precoFormatado : null,
+                precoFormatado: null,
+                teste: null,
+                dialog: false,
+                dialogPublicar: false,
+                dialogCancelado: false,
+                situacao: 'own',
                 money: {
                     decimal: ',',
                     thousands: '.',
@@ -566,12 +594,26 @@
                     precision: 2,
                     masked: false
                 },
-                datetime:new Date()
+                datetime: new Date()
             }
         },
         watch: {
-            preco: function(val, oldVal) {
-                this.precoFormatado = accounting.unformat(val,",");
+            preco: function (val, oldVal) {
+                this.precoFormatado = accounting.unformat(val, ",");
+            },
+            estaSalvo: function (val, oldVal) {
+                if (val === true)
+                    this.situacao = 'Em Elaboração';
+
+                console.log('value changed from ' + val + ' to ' + oldVal);
+            },
+            publicado: function (val, oldVal) {
+                if (val === true)
+                    this.situacao = 'Publicado';
+                else
+                    this.situacao = 'Cancelado';
+
+                console.log('value changed from ' + val + ' to ' + oldVal);
             }
         }
     };
@@ -587,7 +629,7 @@
             }
             .teste {
                 display: none;
-                i{
+                i {
                     font-size: 16px;
                     margin-left: 10px;
                 }
@@ -595,7 +637,7 @@
         }
     }
 
-    .az-container .az-table-list thead tr th{
+    .az-container .az-table-list thead tr th {
         padding: 0 10px !important;
     }
 
@@ -623,7 +665,7 @@
             height: unset;
             padding: 0 10px !important;
         }
-        thead tr th{
+        thead tr th {
             padding: 0 10px !important;
         }
     }
@@ -638,7 +680,7 @@
         text-align: center;
         background-color: #eeeeee;
 
-        &__big{
+        &__big {
             padding: 70px 0 60px !important;
         }
 

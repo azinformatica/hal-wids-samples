@@ -10,8 +10,8 @@ Vue.use(wids, {store})
 
 Vue.use(vuetify, {
   theme: {
-    primary: '#000000',
-    secondary: '#b0bec5',
+    primary: '#006064',
+    secondary: '#c5bb7f',
     accent: '#8c9eff',
     error: '#b71c1c'
   }

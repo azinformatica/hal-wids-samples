@@ -725,7 +725,7 @@
                 dialog: false,
                 dialogPublicar: false,
                 dialogCancelado: false,
-                situacao: 'own',
+                situacao: '',
                 money: {
                     decimal: ',',
                     thousands: '.',

@@ -2,8 +2,12 @@
     <div>
         <az-toolbar>
             <div slot="actions">
-                <a class="btn btn-primary"><v-icon>add_circle</v-icon>Novo</a>
-                <a class="btn btn-alternative"><v-icon>get_app</v-icon>Importar</a>
+                <a class="btn btn-primary">
+                    <v-icon>add_circle</v-icon>
+                    Novo</a>
+                <a class="btn btn-alternative">
+                    <v-icon>get_app</v-icon>
+                    Importar</a>
             </div>
             <az-search slot="simpleSearch"></az-search>
             <az-advanced-search slot="advanceSearch">
@@ -40,33 +44,57 @@
                         :headers="headers"
                         :items="desserts"
                         :loading="false"
-                        :rows-per-page-items="[10,20,50]"
+                        :rows-per-page-items="[5,10,20,50]"
                         class="az-table-list"
-                        prev-icon="mdi-menu-left"
-                        next-icon="mdi-menu-right"
-                        sort-icon="mdi-menu-down"
+                        prev-icon="keyboard_arrow_left"
+                        next-icon="keyboard_arrow_right"
+                        sort-icon="keyboard_arrow_down"
                 >
                     <template slot="items" slot-scope="props">
-                        <td>{{ props.item.dataHoraAbertura }}</td>
-                        <td>{{ props.item.numeroEdital }}</td>
-                        <td>{{ props.item.objeto }}</td>
-                        <td>{{ props.item.responsavel }}</td>
-                        <td>{{ props.item.modalidade }}</td>
-                        <td class="table-actions">
-                            <a>
-                                <v-icon>search</v-icon>
-                            </a>
-                            <a>
-                                <v-icon>get_app</v-icon>
-                            </a>
-                        </td>
+                        <tr :class="{'background-active': props.item.status === 'Em Andamento'}">
+                            <td>{{
+                                props.item.dataHoraAbertura }}
+                            </td>
+                            <td>{{
+                                props.item.numeroEdital }}
+                            </td>
+                            <td>{{ props.item.objeto
+                                }}
+                            </td>
+                            <td>{{
+                                props.item.responsavel }}
+                            </td>
+                            <td>{{
+                                props.item.modalidade }}
+                            </td>
+                            <td :class="{'status-active': props.item.status === 'Em Andamento', 'status': props.item.status !== 'Em Andamento'}">
+                                <span v-if="props.item.status !== 'Em Andamento'">{{ props.item.status }}</span>
+                                <a v-if="props.item.status === 'Em Andamento'">{{ props.item.status }}
+                                    <v-icon>play_arrow</v-icon>
+                                </a>
+                            </td>
+                            <td class="table-actions">
+                                <v-tooltip top>
+                                    <a slot="activator">
+                                        <v-icon>search</v-icon>
+                                    </a>
+                                    <span>Visualizar</span>
+                                </v-tooltip>
+                                <v-tooltip top>
+                                    <a slot="activator">
+                                        <v-icon>edit</v-icon>
+                                    </a>
+                                    <span>Editar</span>
+                                </v-tooltip>
+                            </td>
+                        </tr>
                     </template>
                 </v-data-table>
             </az-form>
         </az-container>
     </div>
-
 </template>
+
 
 <script>
     export default {
@@ -94,7 +122,7 @@
                         align: 'left',
                         sortable: false,
                         value: 'dataHoraAbertura',
-                        width: '180px',
+                        width: '150px',
                     },
                     {
                         text: 'Num. Edital',
@@ -122,10 +150,17 @@
                         align: 'left'
                     },
                     {
+                        text: 'Status',
+                        value: 'status',
+                        sortable: false,
+                        width: '150px',
+                        align: 'left'
+                    },
+                    {
                         text: 'Ações',
                         align: 'right',
                         sortable: false,
-                        width: '100px'
+                        width: '80px'
                     }
                 ],
                 desserts: [
@@ -135,7 +170,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Em Andamento'
                     },
                     {
                         value: false,
@@ -143,7 +179,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -151,7 +188,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -159,7 +197,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -167,7 +206,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -175,7 +215,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -183,7 +224,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -191,7 +233,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -199,7 +242,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -207,7 +251,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -215,7 +260,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -223,7 +269,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -231,7 +278,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -239,7 +287,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     },
                     {
                         value: false,
@@ -247,127 +296,8 @@
                         numeroEdital: '0001/2018',
                         objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
                         responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
-                    },
-                    {
-                        value: false,
-                        dataHoraAbertura: '21/12/2018 08:00:00',
-                        numeroEdital: '0001/2018',
-                        objeto: 'OBJETO DO PROCESSO LICITATÓRIO PARA COMPRA DE PRODUTOS',
-                        responsavel: 'AGEPAN',
-                        modalidade: 'PREGÃO ELETRÔNICO'
+                        modalidade: 'PREGÃO ELETRÔNICO',
+                        status: 'Publicada'
                     }
                 ]
             };
@@ -376,6 +306,43 @@
 </script>
 
 <style lang="less">
+    .az-container .az-table-list tbody tr:nth-child(even) {
+        background-color: white !important;
+        &:hover {
+            background-color: #eee !important;
+        }
+    }
+
+    .background-active {
+        background-color: #f0edc6;
+        &:hover {
+            background-color: darken(#f0edc6, 10%) !important;
+        }
+    }
+
+    .status {
+        span {
+            color: #777777;
+            i {
+                display: none;
+            }
+        }
+    }
+
+    .status-active {
+        a {
+            text-decoration: underline;
+            position: relative;
+            top: -5px;
+            color: #c6762b;
+            i {
+                position: relative;
+                top: 5px;
+                font-size: 26px;
+                color: #c6762b !important;
+            }
+        }
+    }
 
 </style>
 

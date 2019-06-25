@@ -14,6 +14,9 @@
         components: {
             Titulo, UsuarioAtual
         },
+        data() {
+
+        },
         computed: {
             usuarioLogado() {
                 return sandbox.getUserName();
